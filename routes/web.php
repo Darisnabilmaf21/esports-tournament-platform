@@ -10,6 +10,14 @@ Route::get('/', function () {
     return view('welcome', compact('tournaments'));
 });
 
+// Rute untuk Halaman Detail Turnamen
+Route::get('/tournament/{id}', function ($id) {
+    // Mencari turnamen berdasarkan ID, jika tidak ada akan memunculkan error 404
+    $tournament = App\Models\Tournament::findOrFail($id);
+    
+    return view('tournament-detail', compact('tournament'));
+})->name('tournament.show');
+
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');

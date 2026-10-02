@@ -45,9 +45,9 @@
                             <span class="px-3 py-1 text-xs font-bold rounded-full {{ $tournament->status == 'registration' ? 'bg-green-600/20 text-green-400' : 'bg-yellow-600/20 text-yellow-400' }}">
                                 {{ strtoupper($tournament->status) }}
                             </span>
-                            <button class="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded font-semibold transition">
-                                Detail
-                            </button>
+                           <a href="{{ route('tournament.show', $tournament->id) }}" class="bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded font-semibold transition text-sm">
+                            Detail
+                            </a>
                         </div>
                     </div>
                 </div>
