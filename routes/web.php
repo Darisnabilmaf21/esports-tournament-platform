@@ -1,8 +1,14 @@
 <?php
 
+use App\Models\Tournament;
 use Illuminate\Support\Facades\Route;
 
-Route::view('/', 'welcome');
+// Rute untuk halaman utama
+Route::get('/', function () {
+    // Mengambil turnamen yang sedang buka pendaftaran atau sedang berlangsung
+    $tournaments = Tournament::whereIn('status', ['registration', 'ongoing'])->get();
+    return view('welcome', compact('tournaments'));
+});
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])

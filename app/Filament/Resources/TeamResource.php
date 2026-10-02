@@ -7,6 +7,9 @@ use App\Filament\Resources\TeamResource\RelationManagers;
 use App\Models\Team;
 use Filament\Forms;
 use Filament\Forms\Form;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -23,7 +26,8 @@ class TeamResource extends Resource
     {
         return $form
             ->schema([
-                //
+                TextInput::make('name')->label('Nama Tim')->required(),
+        Select::make('user_id')->relationship('user', 'name')->label('Kapten Tim')->required(),
             ]);
     }
 
@@ -31,7 +35,8 @@ class TeamResource extends Resource
     {
         return $table
             ->columns([
-                //
+                TextColumn::make('name')->label('Nama Tim')->searchable(),
+        TextColumn::make('user.name')->label('Kapten Tim')->searchable(),
             ])
             ->filters([
                 //
