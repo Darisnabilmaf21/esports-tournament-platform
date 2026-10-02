@@ -3,6 +3,7 @@
 use App\Models\Tournament;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TournamentRegistrationController;
+use App\Http\Controllers\UserTeamController;
 
 // Rute untuk halaman utama
 Route::get('/', function () {
@@ -16,6 +17,17 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/tournament/{id}/register', [TournamentRegistrationController::class, 'register'])->name('tournament.store');
 });
 
+// Rute Dashboard & Manajemen Tim
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('/dashboard', [UserTeamController::class, 'index'])->name('dashboard');
+    Route::post('/dashboard/teams', [UserTeamController::class, 'store'])->name('teams.store');
+});
+
+// Rute Profil Bawaan Breeze
+Route::middleware('auth')->group(function () {
+    Route::view('/profile', 'profile')->name('profile');
+});
+
 // Rute untuk Halaman Detail Turnamen
 Route::get('/tournament/{id}', function ($id) {
     // Mencari turnamen berdasarkan ID, jika tidak ada akan memunculkan error 404
@@ -23,10 +35,6 @@ Route::get('/tournament/{id}', function ($id) {
     
     return view('tournament-detail', compact('tournament'));
 })->name('tournament.show');
-
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
 
 Route::view('profile', 'profile')
     ->middleware(['auth'])
