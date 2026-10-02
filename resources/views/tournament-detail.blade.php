@@ -67,6 +67,46 @@
                 @endif
             </div>
 
+            <!-- Bagan / Jadwal Pertandingan -->
+            <div class="mt-12 mb-8 border-t border-gray-700 pt-8">
+                <h2 class="text-2xl font-bold mb-6">Jadwal & Hasil Pertandingan</h2>
+                
+                @if($tournament->games->count() > 0)
+                    <div class="space-y-6">
+                        <!-- Mengelompokkan pertandingan berdasarkan babak (round) -->
+                        @foreach($tournament->games->groupBy('round') as $round => $matches)
+                            <div class="bg-gray-800 rounded-lg p-6 border border-gray-700">
+                                <h3 class="text-xl font-bold text-blue-400 mb-4 capitalize">Babak: {{ $round }}</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    @foreach($matches as $game)
+                                        <div class="bg-gray-700 p-4 rounded-lg flex flex-col justify-center shadow-md">
+                                            <!-- Tim A -->
+                                            <div class="flex justify-between items-center mb-2">
+                                                <span class="font-semibold {{ $game->score_a > $game->score_b ? 'text-green-400' : 'text-gray-200' }}">
+                                                    {{ $game->teamA ? $game->teamA->name : 'TBD (Menunggu)' }}
+                                                </span>
+                                                <span class="font-bold text-lg bg-gray-900 px-3 py-1 rounded">{{ $game->score_a }}</span>
+                                            </div>
+                                            <!-- Tim B -->
+                                            <div class="flex justify-between items-center">
+                                                <span class="font-semibold {{ $game->score_b > $game->score_a ? 'text-green-400' : 'text-gray-200' }}">
+                                                    {{ $game->teamB ? $game->teamB->name : 'TBD (Menunggu)' }}
+                                                </span>
+                                                <span class="font-bold text-lg bg-gray-900 px-3 py-1 rounded">{{ $game->score_b }}</span>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <p class="text-gray-500 italic text-center py-4 bg-gray-800 rounded-lg border border-gray-700">
+                        Bagan pertandingan belum tersedia.
+                    </p>
+                @endif
+            </div>
+
             <!-- Tombol Aksi -->
             <div class="mt-8 pt-8 border-t border-gray-700 text-center">
                 @if($tournament->status == 'registration')
