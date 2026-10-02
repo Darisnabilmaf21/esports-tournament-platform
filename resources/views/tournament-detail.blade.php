@@ -39,12 +39,40 @@
                 </div>
             </div>
 
+            <!-- Notifikasi Sukses Pendaftaran -->
+            @if(session('success'))
+                <div class="bg-green-500/20 border border-green-500 text-green-400 p-4 rounded-lg mb-8 text-center font-semibold">
+                    {{ session('success') }}
+                </div>
+            @endif
+
+            <!-- Daftar Tim yang Berpartisipasi -->
+            <div class="mt-12 mb-8">
+                <h2 class="text-2xl font-bold mb-6 border-b border-gray-700 pb-2">
+                    Tim yang Mendaftar ({{ $tournament->teams()->count() }} / {{ $tournament->max_teams }})
+                </h2>
+                
+                @if($tournament->teams->count() > 0)
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        @foreach($tournament->teams as $team)
+                            <div class="bg-gray-700 p-4 rounded-lg border border-gray-600 text-center shadow">
+                                <span class="font-bold text-lg text-blue-300">{{ $team->name }}</span>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <p class="text-gray-500 italic text-center py-4 bg-gray-800 rounded-lg border border-gray-700">
+                        Belum ada tim yang mendaftar. Jadilah yang pertama!
+                    </p>
+                @endif
+            </div>
+
             <!-- Tombol Aksi -->
             <div class="mt-8 pt-8 border-t border-gray-700 text-center">
                 @if($tournament->status == 'registration')
-                    <button class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg text-lg w-full md:w-auto transition duration-300">
-                        Daftarkan Tim Anda Sekarang
-                    </button>
+                    <a href="{{ route('tournament.register', $tournament->id) }}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg text-lg w-full md:w-auto transition duration-300">
+                    Daftarkan Tim Anda Sekarang
+                    </a>
                 @else
                     <button class="bg-gray-600 text-gray-400 font-bold py-3 px-8 rounded-lg text-lg w-full md:w-auto cursor-not-allowed" disabled>
                         Pendaftaran Ditutup

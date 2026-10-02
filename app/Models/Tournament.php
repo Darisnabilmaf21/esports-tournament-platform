@@ -16,4 +16,10 @@ class Tournament extends Model
         'start_date',
         'status',
     ];
+
+    public function teams()
+{
+    return $this->belongsToMany(Team::class);
 }
+}
+
