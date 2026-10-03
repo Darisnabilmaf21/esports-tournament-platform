@@ -9,8 +9,11 @@ class Game extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['tournament_id', 'team_a_id', 'team_b_id', 'score_a', 'score_b', 'round'];
-
+    protected $fillable = ['tournament_id', 'team_a_id', 'team_b_id', 'score_a', 'score_b', 'round', 'match_time'];
+    protected $casts = [
+        'match_time' => 'datetime',
+    ];
+    
     // Relasi ke tabel lain
     public function tournament() { return $this->belongsTo(Tournament::class); }
     public function teamA() { return $this->belongsTo(Team::class, 'team_a_id'); }

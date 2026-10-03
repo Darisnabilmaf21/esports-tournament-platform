@@ -11,6 +11,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Select;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\DateTimePicker;
 use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
@@ -28,6 +29,7 @@ class GameResource extends Resource
             ->schema([
             Select::make('tournament_id')->relationship('tournament', 'name')->label('Turnamen')->required(),
             TextInput::make('round')->label('Babak (Contoh: Final)')->required(),
+            DateTimePicker::make('match_time')->label('Jadwal Pertandingan'),
             Select::make('team_a_id')->relationship('teamA', 'name')->label('Tim A'),
             Select::make('team_b_id')->relationship('teamB', 'name')->label('Tim B'),
             TextInput::make('score_a')->numeric()->default(0)->label('Skor A'),

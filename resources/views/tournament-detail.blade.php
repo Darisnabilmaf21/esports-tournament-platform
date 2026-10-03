@@ -80,6 +80,20 @@
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     @foreach($matches as $game)
                                         <div class="bg-gray-700 p-4 rounded-lg flex flex-col justify-center shadow-md">
+                                           <!-- Menampilkan Jadwal / Status -->
+                                            @if($game->match_time)
+                                                @if(\Carbon\Carbon::now()->greaterThanOrEqualTo($game->match_time))
+                                                    <!-- Jika waktu saat ini sudah melewati jadwal main -->
+                                                    <div class="text-xs text-green-400 font-bold text-center mb-4 bg-green-900/30 py-1 rounded border border-green-700 animate-pulse">
+                                                        🔴 SEDANG BERLANGSUNG
+                                                    </div>
+                                                @else
+                                                    <!-- Jika belum waktunya main -->
+                                                    <div class="text-xs text-gray-400 text-center mb-4 bg-gray-800/50 py-1 rounded border border-gray-600">
+                                                        {{ $game->match_time->format('d M Y - H:i') }} WIB
+                                                    </div>
+                                                @endif
+                                            @endif
                                             <!-- Tim A -->
                                             <div class="flex justify-between items-center mb-2">
                                                 <span class="font-semibold {{ $game->score_a > $game->score_b ? 'text-green-400' : 'text-gray-200' }}">
