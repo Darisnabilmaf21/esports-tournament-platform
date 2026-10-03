@@ -82,8 +82,13 @@
                                         <div class="bg-gray-700 p-4 rounded-lg flex flex-col justify-center shadow-md">
                                            <!-- Menampilkan Jadwal / Status -->
                                             @if($game->match_time)
-                                                @if(\Carbon\Carbon::now()->greaterThanOrEqualTo($game->match_time))
-                                                    <!-- Jika waktu saat ini sudah melewati jadwal main -->
+                                                @if($game->score_a > 0 || $game->score_b > 0)
+                                                    <!-- Jika skor sudah diisi oleh Admin -->
+                                                    <div class="text-xs text-gray-300 font-bold text-center mb-4 bg-gray-800 py-1 rounded border border-gray-500">
+                                                        SELESAI
+                                                    </div>
+                                                @elseif(\Carbon\Carbon::now()->greaterThanOrEqualTo($game->match_time))
+                                                    <!-- Jika sudah waktunya tapi skor masih 0 -->
                                                     <div class="text-xs text-green-400 font-bold text-center mb-4 bg-green-900/30 py-1 rounded border border-green-700 animate-pulse">
                                                         🔴 SEDANG BERLANGSUNG
                                                     </div>
