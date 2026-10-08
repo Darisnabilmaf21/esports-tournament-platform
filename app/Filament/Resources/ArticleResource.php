@@ -15,6 +15,8 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\DateTimePicker;
+use Illuminate\Support\Str;
+use Filament\Forms\Set;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -31,8 +33,16 @@ class ArticleResource extends Resource
             ->relationship('gameTitle', 'name') // Mengambil data nama game dari relasi
             ->required()
             ->label('Pilih Game'),
-        TextInput::make('title')->required()->label('Judul Artikel'),
-        TextInput::make('slug')->required()->label('Slug (URL)'),
+        TextInput::make('title')
+    ->required()
+    ->live(onBlur: true)
+    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state)))
+    ->label('Nama Event'),
+
+TextInput::make('slug')
+    ->required()
+    ->readOnly()
+    ->label('Slug (URL)'),
         Select::make('category')
             ->options([
                 'patch_notes' => 'Patch Notes',

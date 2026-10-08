@@ -12,6 +12,8 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\FileUpload;
+use Illuminate\Support\Str;
+use Filament\Forms\Set;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -24,8 +26,16 @@ class GameTitleResource extends Resource
     public static function form(Form $form): Form
     {
        return $form->schema([
-        TextInput::make('name')->required()->label('Nama Game'),
-        TextInput::make('slug')->required()->label('Slug (URL)'),
+       TextInput::make('title')
+    ->required()
+    ->live(onBlur: true)
+    ->afterStateUpdated(fn (Set $set, ?string $state) => $set('slug', Str::slug($state)))
+    ->label('Nama Event'),
+
+TextInput::make('slug')
+    ->required()
+    ->readOnly()
+    ->label('Slug (URL)'),
         TextInput::make('developer')->label('Pengembang (Developer)'),
         FileUpload::make('cover_image')->image()->directory('games')->label('Gambar Cover'),
     ]);
