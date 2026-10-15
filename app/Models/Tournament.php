@@ -9,22 +9,24 @@ class Tournament extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name',
-        'game_title',
-        'max_teams',
-        'start_date',
-        'status',
-    ];
+    protected $guarded = [];
 
-    public function teams()
-{
-    return $this->belongsToMany(Team::class);
-}
-
-public function games()
+     // Relasi ke model User sebagai penyelenggara
+    public function organizer()
     {
-        return $this->hasMany(Game::class);
+        return $this->belongsTo(User::class, 'organizer_id');
     }
-}
 
+    // Relasi ke Game
+    public function game()
+    {
+        return $this->belongsTo(Game::class);
+    }
+
+    // Relasi ke Partisipan Turnamen
+    public function participants()
+    {
+        return $this->hasMany(TournamentParticipant::class);
+    }
+
+}

@@ -18,10 +18,10 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // Rute Dashboard & Manajemen Tim
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', [UserTeamController::class, 'index'])->name('dashboard');
-    Route::post('/dashboard/teams', [UserTeamController::class, 'store'])->name('teams.store');
-});
+// Rute Dashboard MVP
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
 // Rute Profil Bawaan Breeze
 Route::middleware('auth')->group(function () {

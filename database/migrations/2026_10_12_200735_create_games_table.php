@@ -11,16 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('articles', function (Blueprint $table) {
+       Schema::create('games', function (Blueprint $table) {
         $table->id();
-        // Ubah relasi menjadi game_title_id
-        $table->foreignId('game_title_id')->constrained()->cascadeOnDelete();
         $table->string('title');
         $table->string('slug')->unique();
-        $table->enum('category', ['patch_notes', 'tutorial', 'news']);
-        $table->longText('content');
-        $table->string('thumbnail')->nullable();
-        $table->timestamp('published_at')->nullable();
+        $table->string('developer')->nullable();
+        $table->string('cover_image')->nullable();
+        $table->text('description')->nullable();
         $table->timestamps();
     });
     }
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('articles');
+        Schema::dropIfExists('games');
     }
 };
